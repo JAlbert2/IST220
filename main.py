@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import random
+import argparse
 import networkx as nx
 import matplotlib.pyplot as plt
 
@@ -25,11 +26,10 @@ def generateLinks(nodes, links, alpha):
                     break  # End the for loop if it exists
                 present = False  # If the connection does not exist, end the while loop and add it to network
         network.append([node1, node2, random.randint(1, 9)])
-    print(network)
     return network
 
 
-"""def solve(network, alpha):
+"""def solve(network, alpha):       Not working, WIP
     connections = []
     base = ''
     path = ''
@@ -84,25 +84,28 @@ def leastCost(network, alpha, base):  # Calculates the least cost path
 
 
 def gui(network, nodes):
-    xMax = 500
-    yMax = 500
-    G = nx.Graph()
-    G.add_nodes_from(nodes)
-    print('Nodes, ', G.nodes())
-    for n in network:
+    G = nx.Graph()  # Create networkx variable
+    G.add_nodes_from(nodes)  # Add all the nodes to networkx
+    for n in network:  # Add links (edge connections) between nodes to networkx
         G.add_edge(n[0], n[1])
-    print('Connections, ', G.edges())
-    pos = nx.random_layout(G)
-    nx.draw(G, pos, with_labels=True)
-    for n in network:
-        nx.draw_networkx_edge_labels(G, pos, edge_labels={(n[0], n[1]):str(n[2])})
-    plt.savefig("path.png")
-    plt.show()
+    pos = nx.random_layout(G)  # Specify random layout for use in labeling edge connections
+    nx.draw(G, pos, with_labels=True)  # Create the nodes and links
+    for n in network:  # Add numerical cost as a label on each path
+        nx.draw_networkx_edge_labels(G, pos, edge_labels={(n[0], n[1]): str(n[2])})
+    plt.savefig("path.png")  # Save file as a png to display in webpage
+    plt.show()  # Show the file
 
 
 def main():
-    nodes = int(input("Enter number of nodes: "))
-    links = int(input("Enter number of links: "))
+    parser = argparse.ArgumentParser(description='Network Topology Generator')  # Argument code taken from UDPClient
+    parser.add_argument("--node", "-n", type=int, help='Number of nodes in the network.')
+    parser.add_argument("--link", "-l", type=int, help='Number of links in the network.')
+    args = parser.parse_args()
+    nodes = args.node
+    links = args.link
+    # nodes = int(input("Enter number of nodes: "))
+    # links = int(input("Enter number of links: "))
+
     linkMax = int(nodes * (nodes - 1) / 2)  # n(n-1)/2
     if nodes > 26:  # Max of 26 connections
         nodes = 26
@@ -116,7 +119,7 @@ def main():
                  'u', 'v', 'w', 'x', 'y', 'z']  # Possible labels for nodes
     alpha = selection[-nodes:]  # Start at the end, select from there
     network = generateLinks(nodes, links, alpha)
-    #solve(network, alpha)
+    # solve(network, alpha)
     gui(network, alpha)
 
 

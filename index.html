@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Networking Diagram Generator</title>
+        <meta name="description" content="Placeholder">
+        <link rel="stylesheet" href="main.css">
+    </head>
+    <body>
+        <h1>IST 220 Network Diagram Generator Tool</h1>
+        <h3>Enter number of nodes</h3>
+        <input type="range" min="4" max="10" value="6" class="slider" id="nodeSlider">
+        <span id="n"></span>
+        <h3>Enter number of links</h3>
+        <input type="range" min="4" max="45" value="6" class="slider" id="linkSlider">
+        <span id="l"></span>
+        <br><input type="submit" value="Generate">
+        
+
+        
+        <script>
+            var sliderN = document.getElementById("nodeSlider");
+            var outputN = document.getElementById("n");
+            outputN.innerHTML = sliderN.value;
+            
+            var sliderL = document.getElementById("linkSlider");
+            var outputL = document.getElementById("l");
+            outputL.innerHTML = sliderL.value;
+            
+            sliderN.oninput = function() {
+              outputN.innerHTML = this.value;
+            }
+            sliderL.oninput = function() {
+              outputL.innerHTML = this.value;
+            }
+        </script>
+    </body>
+</html>
