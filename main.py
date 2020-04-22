@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-import random
 import argparse
-import networkx as nx
+import random
+
 import matplotlib.pyplot as plt
+import networkx as nx
 
 
 def generateLinks(nodes, links, alpha):
@@ -88,7 +89,7 @@ def gui(network, nodes):
     G.add_nodes_from(nodes)  # Add all the nodes to networkx
     for n in network:  # Add links (edge connections) between nodes to networkx
         G.add_edge(n[0], n[1])
-    pos = nx.random_layout(G)  # Specify random layout for use in labeling edge connections
+    pos = nx.spring_layout(G)  # Specify random layout for use in labeling edge connections
     nx.draw(G, pos, with_labels=True)  # Create the nodes and links
     for n in network:  # Add numerical cost as a label on each path
         nx.draw_networkx_edge_labels(G, pos, edge_labels={(n[0], n[1]): str(n[2])})
