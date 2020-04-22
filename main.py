@@ -29,7 +29,7 @@ def generateLinks(nodes, links, alpha):
     return network
 
 
-"""def solve(network, alpha):       Not working, WIP
+"""def solve(network, alpha):       Not working, WIP    Needs to have a start and an end.
     connections = []
     base = ''
     path = ''
