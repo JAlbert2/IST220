@@ -90,9 +90,9 @@ def gui(network, nodes):
     for n in network:  # Add links (edge connections) between nodes to networkx
         G.add_edge(n[0], n[1])
     pos = nx.spring_layout(G)  # Specify random layout for use in labeling edge connections
-    nx.draw(G, pos, with_labels=True)  # Create the nodes and links
+    nx.draw(G, pos, with_labels=True, font_size=20)  # Create the nodes and links
     for n in network:  # Add numerical cost as a label on each path
-        nx.draw_networkx_edge_labels(G, pos, edge_labels={(n[0], n[1]): str(n[2])})
+        nx.draw_networkx_edge_labels(G, pos, edge_labels={(n[0], n[1]): str(n[2])}, font_size=20)
     plt.savefig("path.png")  # Save file as a png to display in webpage
     plt.show()  # Show the file
 
