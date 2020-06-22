@@ -30,70 +30,22 @@ def generateLinks(nodes, links, alpha):
     return network
 
 
-"""def solve(network, alpha):       Not working, WIP    Needs to have a start and an end.
-    connections = []
-    base = ''
-    path = ''
-    cost = 0
-    for let in alpha:
-        if let == alpha[0]:
-            connections.append([alpha[0], 'Base', 0])  # Node, Path, Cost
-            base = alpha[0]
-        else:
-            least = leastCost(network, alpha, base)
-            if least[0] == let:
-                connections.append(least)
-
-    '''path = alpha[0]
-    for node in alpha:
-        first = leastCost(network, alpha, node)
-        smallest = 10
-        index = first[0]
-        for x in first:
-            if 0 < x[1] < smallest and x[0] not in path:
-                smallest = x[1]
-                index = x
-        print(index, smallest)
-        path += index[0]
-    print(path)'''
-
-
-def leastCost(network, alpha, base):  # Calculates the least cost path
-    minimum = []
-    # -1 is infinity, unreachable
-    for pair in network: # Minimum connection based on closest nodes
-        if base in pair:
-            if base == pair[0]:
-                minimum.append([pair[1], pair[2]])
-            else:
-                minimum.append([pair[0], pair[2]])
-    '''for letter in alpha:  # For each node, check to see if connection is found from previous for, and add -1
-        inside = False
-        for x in minimum:
-            if letter == x[0] and letter != base:
-                inside = True
-                break
-        if not inside:
-            minimum.append([letter, -1])'''
-    cost = 10
-    index = ''
-    for x in minimum:
-        if x[1] < cost:
-            cost = x[1]
-            index = x
-    return x"""
+def solve(G, base):
+    print(nx.single_source_dijkstra_path(G, base))  # Find least cost and display node path
+    print(nx.single_source_dijkstra_path_length(G, base))  # Find least cost and display path cost
 
 
 def gui(network, nodes):
     G = nx.Graph()  # Create networkx variable
     G.add_nodes_from(nodes)  # Add all the nodes to networkx
     for n in network:  # Add links (edge connections) between nodes to networkx
-        G.add_edge(n[0], n[1])
+        G.add_edge(n[0], n[1], weight=(n[2]))
     pos = nx.spring_layout(G)  # Specify random layout for use in labeling edge connections
     nx.draw(G, pos, with_labels=True, font_size=20)  # Create the nodes and links
     for n in network:  # Add numerical cost as a label on each path
-        nx.draw_networkx_edge_labels(G, pos, edge_labels={(n[0], n[1]): str(n[2])}, font_size=20)
+        nx.draw_networkx_edge_labels(G, pos, edge_labels={(n[0], n[1]): '^'+str(n[2])+'^'}, font_size=20)
     plt.savefig("path.png")  # Save file as a png to display in webpage
+    solve(G, nodes[0])
     plt.show()  # Show the file
 
 
@@ -120,7 +72,6 @@ def main():
                  'u', 'v', 'w', 'x', 'y', 'z']  # Possible labels for nodes
     alpha = selection[-nodes:]  # Start at the end, select from there
     network = generateLinks(nodes, links, alpha)
-    # solve(network, alpha)
     gui(network, alpha)
 
 
